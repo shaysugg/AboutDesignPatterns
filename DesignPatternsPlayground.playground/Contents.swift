@@ -19,7 +19,8 @@ import _Concurrency
 //let example = CompositeExample()
 
 //let example = ChainOfResponsibilityExample()
-let example = VisitorExample(visitor: ExportVisitor())
+//let example = VisitorExample(visitor: ExportVisitor())
+let example = DecoratorExample()
 
 example.run()
 
@@ -180,5 +181,24 @@ struct VisitorExample: Example {
         for file in files {
             file.accept(visitor)
         }
+    }
+}
+
+struct DecoratorExample: Example {
+    func run() {
+        var messenger: Messenger {
+            let messenger1 = EmailMessenger(email: "johnDoe@email.com")
+            
+            let messenger2 = PushNotificationMessenger(messenger: messenger1, userName: "@john_doe")
+            
+            
+            let messenger3 = SMSMessenger(messenger: messenger2, phoneNumber: "+1123456")
+            
+            return messenger3
+        }
+        
+        messenger.sendAlertMessage()
+        messenger.sendMarketingMessage()
+        messenger.sendVerificationCode()
     }
 }
